@@ -134,7 +134,8 @@ class EditSpotActivity: AppCompatActivity() {
 
     /**
      * Opens the camera app and stores the picture
-     * Camera actions modified from: https://medium.com/developer-student-clubs/android-kotlin-camera-using-gallery-ff8591c26c3e
+     * Camera actions modified from: https://medium.com/developer-student-clubs/android-kotlin-camera-using-gallery-ff8591c26c3e and
+     * https://github.com/android/camera-samples/blob/main/CameraXTfLite/app/src/main/java/com/example/android/camerax/tflite/CameraActivity.kt
      */
     private fun getPermissions() {
         if (!hasPermissions()) {
@@ -164,9 +165,21 @@ class EditSpotActivity: AppCompatActivity() {
 
     /** Convenience method used to check if all permissions required by this app are granted */
     private fun hasPermissions(): Boolean {
-        return ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+        return ContextCompat.checkSelfPermission(
+            applicationContext,
+            Manifest.permission.CAMERA
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
+    /**
+     * method called when the camera is closed again; sets and saves the image
+     */
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == cameraRequest) {
+            setImage(this, spotId, detail_image_edit)
+        }
+    }
     /**
      * Save the current name and description to the spot at index spotPos in the featurecollection
      */

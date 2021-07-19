@@ -112,6 +112,10 @@ class DetailsActivity: AppCompatActivity() {
     private fun hasPermissions(): Boolean {
         return ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
+
+    /**
+     * method called when the camera is closed again; sets and saves the image
+     */
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == cameraRequest) {
