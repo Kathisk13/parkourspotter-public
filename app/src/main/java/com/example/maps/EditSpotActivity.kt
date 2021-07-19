@@ -3,6 +3,7 @@ package com.example.maps
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -11,10 +12,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
-import com.example.maps.utils.getPhotoFile
-import com.example.maps.utils.readExternalFile
-import com.example.maps.utils.setImage
-import com.example.maps.utils.writeExternalFile
+import com.example.maps.utils.*
 import com.google.gson.JsonObject
 import com.mapbox.geojson.Feature
 import com.mapbox.geojson.FeatureCollection
@@ -111,11 +109,13 @@ class EditSpotActivity: AppCompatActivity() {
         properties.addProperty("Beschreibung", description)
         val id = "$name$description".hashCode()
         properties.addProperty("id", id)
-        val default = getPhotoFile(this, "default")
-        val newPicture = getPhotoFile(this, id.toString())
-        if(!default.renameTo(newPicture))
-            Toast.makeText(this, "There was a problem saving the picture", Toast.LENGTH_SHORT)
-                .show()
+        if(fileExists(this, "default", Environment.DIRECTORY_PICTURES)) {
+            val default = getPhotoFile(this, "default")
+            val newPicture = getPhotoFile(this, id.toString())
+            if (!default.renameTo(newPicture))
+                Toast.makeText(this, "There was a problem saving the picture", Toast.LENGTH_SHORT)
+                    .show()
+        }
         val newFeature = Feature.fromGeometry(point, properties)
         features?.add(newFeature)
         writeExternalFile(this,SPOTSFILE_NAME, "${collection.toJson()}")
