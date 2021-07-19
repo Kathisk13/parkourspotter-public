@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">maps</string>
+    <string name="title_activity_maps">ParkourSpotter</string>
+    <string name="mapbox_access_token">Add your public token here</string>
+    <string name="searchbar">Suche</string>
+    <string name="description">Beschreibung:</string>
+    <string name="description_hint">Add type of obstacle, height, comments and possible exercises</string>
+    <string name="tile_region">Tile region</string>
+    <string name="style_pack">Style pack</string>
+    <string name="description_detailImage">Picture of the spot</string>
+    <string name="intro">Klicke auf die Karte, wenn du an dieser Stelle einen coolen Parkourspot gefunden hast,
+        du kannst ihn dann mit einem Namen und einer Beschreibung hinzufügen.
+Mit den Balken oben rechts kommst du zu einer Liste aller Spots, die du schon eingetragen hast.
+ </string>
+    <string name="example_spot">{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Döhrener Turm",
+                "Beschreibung": "Seit über 600 Jahren wacht nun schon der Döhrener Turm am Weg nach Hannover. Die Hannoveraner schützen sich hier seit 1355 mit Erdwällen und Gräben gegen böse. Nachbarn. Für 26 Mark und fünf Schillinge bauten sie dann 1382 den Döhrener Turm.",
+                "id": "18e22fde4f5507ce281f67dd2c533402"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  9.760558605194092,
+                  52.346953491760125
+                ]
+            }
+        }
+    ]
+}</string>
+</resources>

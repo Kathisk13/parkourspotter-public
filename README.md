@@ -1,0 +1,4 @@
+## ParkourSpotter
+Um die App zu kompilieren, müssen noch API access tokens hinzugefügt werden, um die Karte von Mapbox downloaden zu können. In einem [Mapbox account](https://account.mapbox.com/auth/signup/) hierzu einen public access token und einen privaten token erstellen, dessen `Downloads:Read` scope gesetzt ist (für weitere Details siehe: [mapbox install](https://docs.mapbox.com/android/beta/maps/guides/install/)). Den public token in res/values/strings.xml unter dem Namen `mapbox_access_token` hinzufügen. Der private token muss in die gradle.properties Datei eingefügt werden mit dem key `MAPBOX_DOWNLOADS_TOKEN`.
+
+Die App benötigt mindestens API level 23.

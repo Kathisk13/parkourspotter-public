@@ -1,0 +1,20 @@
+{
+    "type": "FeatureCollection",
+    "features": [
+        {
+            "type": "Feature",
+            "properties": {
+                "Name": "Döhrener Turm",
+                "Beschreibung": "Seit über 600 Jahren wacht nun schon der Döhrener Turm am Weg nach Hannover. Die Hannoveraner schützen sich hier seit 1355 mit Erdwällen und Gräben gegen böse. Nachbarn. Für 26 Mark und fünf Schillinge bauten sie dann 1382 den Döhrener Turm.",
+                "id": "18e22fde4f5507ce281f67dd2c533402"
+            },
+            "geometry": {
+                "type": "Point",
+                "coordinates": [
+                  9.760558605194092,
+                  52.346953491760125
+                ]
+            }
+        }
+    ]
+}
