@@ -1,6 +1,8 @@
 package com.example.maps
 
+import android.Manifest
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -10,6 +12,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
 import androidx.core.view.isVisible
 import com.example.maps.utils.*
@@ -70,7 +73,7 @@ class EditSpotActivity: AppCompatActivity() {
                 saveButton.setOnClickListener { clickChangeButton(currentSpotPos, collection)}
             }
         }
-        editPicture_edit.setOnClickListener { clickEditPicture(spotId) }
+        editPicture_edit.setOnClickListener { getPermissions() }
         cancel.setOnClickListener { cancelChanges() }
         delete.setOnClickListener { deleteSpot(currentSpotPos, spotId, collection) }
     }
@@ -133,7 +136,13 @@ class EditSpotActivity: AppCompatActivity() {
      * Opens the camera app and stores the picture
      * Camera actions modified from: https://medium.com/developer-student-clubs/android-kotlin-camera-using-gallery-ff8591c26c3e
      */
-    private fun clickEditPicture(spotId: String) {
+    private fun getPermissions() {
+        if (!hasPermissions()) {
+            requestPermissions(arrayOf(Manifest.permission.CAMERA), cameraRequest)
+        } else
+            takePhoto()
+    }
+    private fun takePhoto(){
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val file = getPhotoFile(this, spotId)
         val uri: Uri =
@@ -141,11 +150,21 @@ class EditSpotActivity: AppCompatActivity() {
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
         startActivityForResult(intent, cameraRequest)
     }
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == cameraRequest) {
-            setImage(this, spotId, detail_image_edit)
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == cameraRequest && hasPermissions()) {
+            takePhoto()
         }
+    }
+
+    /** Convenience method used to check if all permissions required by this app are granted */
+    private fun hasPermissions(): Boolean {
+        return ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 
     /**

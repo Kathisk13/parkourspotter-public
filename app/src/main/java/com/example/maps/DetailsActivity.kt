@@ -71,25 +71,46 @@ class DetailsActivity: AppCompatActivity() {
                 spotName.text = spot.getStringProperty("Name")
                 spotDescription.text = spot.getStringProperty("Beschreibung")
 
-                editPicture.setOnClickListener { clickEditPicture(spotId) }
+                editPicture.setOnClickListener { getPermissions() }
                 goToMap.setOnClickListener { clickMapButton(spot.geometry() as Point) }
                 edit_button.setOnClickListener { clickEditSpot(currentSpotPos)}
             }
         }
     }
 
-    /*  TODO change permission request?
-     */
-    private fun clickEditPicture(spotId: String) {
-        if (ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA)
-            == PackageManager.PERMISSION_DENIED)
+    /**
+     * Opens the camera app and stores the picture
+     * Camera actions modified from: https://medium.com/developer-student-clubs/android-kotlin-camera-using-gallery-ff8591c26c3e
+     to*/
+    private fun getPermissions() {
+        if (!hasPermissions()) {
             requestPermissions(arrayOf(Manifest.permission.CAMERA), cameraRequest)
+        } else
+            takePhoto()
+    }
+    private fun takePhoto(){
         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
         val file = getPhotoFile(this, spotId)
         val uri: Uri =
             FileProvider.getUriForFile(this, this.applicationContext.packageName + ".provider", file)
         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri)
         startActivityForResult(intent, cameraRequest)
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        if (requestCode == cameraRequest && hasPermissions()) {
+            takePhoto()
+        }
+    }
+
+    /** Convenience method used to check if all permissions required by this app are granted */
+    private fun hasPermissions(): Boolean {
+        return ContextCompat.checkSelfPermission(applicationContext, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
